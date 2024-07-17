@@ -46,3 +46,12 @@ class FeedView(generics.ListAPIView):
         user = self.request.user
         following_users = user.following.all()
         return Tweet.objects.filter(user__in=following_users)
+    
+class UserTweetListView(generics.ListAPIView):
+    serializer_class = TweetSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        user = User.objects.get(username=username)
+        return Tweet.objects.filter(user=user).order_by('-created_at')

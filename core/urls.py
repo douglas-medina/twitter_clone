@@ -5,7 +5,8 @@ from .views import (
     MyTokenObtainPairView, 
     TweetListCreateView, 
     FollowUnfollowView, 
-    FeedView
+    FeedView,
+    UserTweetListView,
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path('tweets/', TweetListCreateView.as_view(), name='tweets'),
     path('api/follow/<int:pk>/', FollowUnfollowView.as_view(), name='follow_unfollow'),
     path('feed/', FeedView.as_view(), name='feed'),
+    path('users/<str:username>/tweets/', UserTweetListView.as_view(), name='user-tweets'),
 ]
