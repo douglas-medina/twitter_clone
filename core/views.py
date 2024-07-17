@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from django.contrib.auth import authenticate
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -31,11 +32,14 @@ class FollowUnfollowView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        user_to_follow = User.objects.get(pk=pk)
-        if user_to_follow in request.user.following.all():
-            request.user.following.remove(user_to_follow)
+        user_to_follow = get_object_or_404(User, pk=pk)
+        current_user = request.user
+
+        if user_to_follow in current_user.following.all():
+            current_user.following.remove(user_to_follow)
         else:
-            request.user.following.add(user_to_follow)
+            current_user.following.add(user_to_follow)
+
         return Response({'status': 'ok'})
     
 class FeedView(generics.ListAPIView):

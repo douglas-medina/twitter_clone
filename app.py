@@ -59,7 +59,7 @@ def main():
         tweet_feed_page.show()
 
     elif choice == 'Profile':
-        profile_page.show(st.session_state.username)
+        profile_page.show_profile(st.session_state.username, st.session_state.access_token)
 
 if __name__ == '__main__':
     main()

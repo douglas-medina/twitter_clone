@@ -16,4 +16,5 @@ urlpatterns = [
     path('api/follow/<int:pk>/', FollowUnfollowView.as_view(), name='follow_unfollow'),
     path('feed/', FeedView.as_view(), name='feed'),
     path('users/<str:username>/tweets/', UserTweetListView.as_view(), name='user-tweets'),
+    path('follow/<int:pk>/', FollowUnfollowView.as_view(), name='follow-unfollow'),
 ]
