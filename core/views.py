@@ -20,9 +20,9 @@ class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
 
 class TweetListCreateView(generics.ListCreateAPIView):
-    queryset = Tweet.objects.all()
+    queryset = Tweet.objects.all().order_by('-created_at') 
     serializer_class = TweetSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # Permite acesso anônimo para leitura
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
