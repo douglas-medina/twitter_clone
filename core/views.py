@@ -8,6 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User, Tweet
 from .serializers import UserSerializer, TweetSerializer, MyTokenObtainPairSerializer
+from .permissions import IsTweetCreatorOrReadOnly
 
 # Create your views here.
 
@@ -21,7 +22,7 @@ class MyTokenObtainPairView(TokenObtainPairView):
 class TweetListCreateView(generics.ListCreateAPIView):
     queryset = Tweet.objects.all()
     serializer_class = TweetSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # Permite acesso anônimo para leitura
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
