@@ -1,0 +1,6 @@
+Django==4.2.3
+djangorestframework==3.14.0
+djangorestframework-simplejwt==5.2.2
+psycopg2-binary==2.9.6  # Caso esteja usando PostgreSQL como banco de dados
+cffi==1.15.1
+cryptography==41.0.1
