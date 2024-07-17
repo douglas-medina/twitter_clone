@@ -25,18 +25,17 @@ def show_profile(username, access_token):
         else:
             st.write("No tweets found.")
         
-        # Check if current user is following this user
         if 'user_id' not in st.session_state:
             st.session_state.user_id = None
         
-        if st.session_state.user_id:  # Ensure user_id is set in session state
+        if st.session_state.user_id:
             follow_status = "Follow"
             for tweet in tweets:
                 if st.session_state.user_id in tweet['user']['followers']:
                     follow_status = "Unfollow"
                     break
 
-            col1, col2 = st.columns([3, 1])  # Adjust column widths as needed
+            col1, col2 = st.columns([3, 1])
 
             with col1:
                 st.write(f"Username: {tweets[0]['user']['username']}")
@@ -53,9 +52,5 @@ def show_profile(username, access_token):
     else:
         st.error(f'Failed to fetch user profile. Status code: {response.status_code}')
 
-# Test the profile directly when running this script
 if __name__ == "__main__":
-    access_token = 'seu_token_de_autenticacao'  # Replace with the token obtained after login
-    st.session_state.user_id = 1  # Initialize user_id with the ID of the logged-in user
-    
-    show_profile('medina', access_token)
+    pass
