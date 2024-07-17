@@ -1,0 +1,23 @@
+# Ignore IDE files (customize as needed)
+.vscode/
+.idea/
+*.pyc
+
+# Ignore environment virtual directory
+venv/
+
+# Ignore any local settings file (e.g., settings_local.py)
+**/settings_local.py
+
+# Ignore compiled Python files and directories
+__pycache__/
+*.pyc
+
+# Ignore log files
+*.log
+
+# Ignore temp files
+*.tmp
+
+# Ignore any other files specific to your local environment or tools
+# Add more rules here as needed
