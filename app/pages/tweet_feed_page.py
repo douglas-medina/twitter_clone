@@ -10,11 +10,11 @@ def fetch_feed():
     return response.json() if response.status_code == 200 else []
 
 def show():
-    show_create_tweet()  # Show the create tweet section
-
     st.subheader('Feed')
+    show_create_tweet() 
+
     feed = fetch_feed()
-    for tweet in feed:
+    for tweet in sorted(feed, key=lambda x: x['created_at'], reverse=True):
         st.markdown(
             f"""
             <div style="border: 1px solid #ccc; border-radius: 10px; padding: 10px; margin-bottom: 10px;">
