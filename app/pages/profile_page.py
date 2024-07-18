@@ -10,6 +10,7 @@ def show_profile(username, access_token):
     with col1:
         st.header(f"Profile: {username}")
 
+    # Fetch user details
     response = requests.get(USER_URL.format(username=username), headers={'Authorization': f'Bearer {access_token}'})
     
     if response.status_code == 200:
@@ -23,32 +24,25 @@ def show_profile(username, access_token):
                         <small>Posted by {tweet['user']['username']} on {datetime.strptime(tweet['created_at'], '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%d/%m/%Y %H:%M:%S')}</small>
                     </div>
                 """, unsafe_allow_html=True)
+
+            user_id = tweets[0]['user']['id']
+            is_following = any(st.session_state.user_id in tweet['user']['followers'] for tweet in tweets)
+            follow_status = "Unfollow" if is_following else "Follow"
+            
         else:
-            st.write("No tweets found.")
-
-        user_id = tweets[0]['user']['id']
-        
-        if f"follow_status_{user_id}" not in st.session_state:
-            follow_status = "Follow"
-            for tweet in tweets:
-                if st.session_state.user_id in tweet['user']['followers']:
-                    follow_status = "Unfollow"
-                    break
-            st.session_state[f"follow_status_{user_id}"] = follow_status
-
-        follow_status = st.session_state[f"follow_status_{user_id}"]
-
+            st.write("No tweets yet.")
+            
         with col2:
             if st.button(follow_status):
-                follow_response = requests.post(FOLLOW_URL.format(pk=user_id), headers={'Authorization': f'Bearer {access_token}'})
-                st.write(f"Sending follow/unfollow request to {FOLLOW_URL.format(pk=user_id)}")
+                headers = {
+                    'Authorization': f'Bearer {access_token}'
+                }
+                follow_response = requests.post(FOLLOW_URL.format(pk=user_id), headers=headers)
                 if follow_response.status_code == 200:
                     st.success(f"{follow_status} successful!")
                     st.session_state[f"follow_status_{user_id}"] = "Unfollow" if follow_status == "Follow" else "Follow"
-                    st.experimental_rerun()
                 else:
                     st.error(f"Failed to {follow_status.lower()}. Error: {follow_response.status_code} - {follow_response.text}")
-                    st.write(f"Error details: {follow_response.json()}")
     else:
         st.error(f'Failed to fetch user profile. Status code: {response.status_code}')
 
