@@ -32,13 +32,16 @@ class FollowUnfollowView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
+        print(f"Request received to follow/unfollow user with id {pk}")
         user_to_follow = get_object_or_404(User, pk=pk)
         current_user = request.user
 
         if user_to_follow in current_user.following.all():
             current_user.following.remove(user_to_follow)
+            print(f"User {current_user.id} unfollowed user {user_to_follow.id}")
         else:
             current_user.following.add(user_to_follow)
+            print(f"User {current_user.id} followed user {user_to_follow.id}")
 
         return Response({'status': 'ok'})
     

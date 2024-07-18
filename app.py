@@ -10,7 +10,7 @@ def login(username, password):
     return response
 
 def main():
-    st.title('Twitter Clone - Streamlit Frontend')
+    st.title('Twitter Clone - EBAC')
 
     if 'access_token' not in st.session_state:
         st.session_state.access_token = None
@@ -24,7 +24,7 @@ def main():
         st.sidebar.markdown(f"Logged in as: **{st.session_state.username}**")
 
     if st.session_state.access_token:
-        sidebar_options = ['Create Tweet & View Feed', 'Profile', 'Search Profile']
+        sidebar_options = ['Feed', 'Profile', 'Search Profile']
         st.sidebar.markdown("---")
         if st.sidebar.button('Logout'):
             st.session_state.access_token = None
@@ -32,9 +32,9 @@ def main():
             st.session_state.username = None
             st.session_state.password = None
             st.session_state.submitted = False
-            st.session_state.user_id = None  # Adicione esta linha
+            st.session_state.user_id = None 
             st.success('Logged out successfully.')
-            st.experimental_rerun()  # Redireciona para a página de login após logout
+            st.experimental_rerun()
     else:
         sidebar_options = ['Login']
 
@@ -58,7 +58,7 @@ def main():
                 st.error('Login failed. Please check your credentials.')
                 st.session_state.submitted = False
 
-    elif choice == 'Create Tweet & View Feed':
+    elif choice == 'Feed':
         tweet_feed_page.show()
 
     elif choice == 'Profile':
